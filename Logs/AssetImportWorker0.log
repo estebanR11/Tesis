@@ -763,3 +763,4 @@ Received Import Request.
 Start importing Assets/Materials/Objetivo.mat using Guid(bfc61c441bb708347bbc2397b27db87e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd13228dca918e3ba397b546a34bb63ad') in 0.016602 seconds 
   Import took 0.019480 seconds .
 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
