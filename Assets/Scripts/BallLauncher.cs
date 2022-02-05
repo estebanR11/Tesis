@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using TMPro;
 public class BallLauncher : MonoBehaviour
 {
     public Rigidbody ball;
     public Transform target;
 
-    public float h = 25;
+	public float h = 0;
     public float gravity = -9.8f;
 
+	[SerializeField] TextMeshProUGUI textoTiempo;
+	float tiempo = 0.0f;
+	bool isRunning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,11 +27,32 @@ public class BallLauncher : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Launch();
+			isRunning = true;
 		}
+
+		if(isRunning==true)
+        {
+			tiempo += Time.deltaTime;
+			textoTiempo.text = "Tiempo: " + tiempo;
+        }
+		
 	}
 
 
-	void Launch()
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Finish"))
+        {
+			isRunning = false;
+        }
+    }
+
+	public void LoadData(float anguloH, float velInicial)
+    {
+		
+		
+    }
+    void Launch()
 	{
 		Physics.gravity = Vector3.up * gravity;
 		ball.useGravity = true;
@@ -42,7 +67,9 @@ public class BallLauncher : MonoBehaviour
 		Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * h);
 		Vector3 velocityXZ = displacementXZ / time;
 
-		return new LaunchData(velocityXZ + velocityY * -Mathf.Sign(gravity), time);
+		Debug.Log(velocityXZ);
+			 
+		return new LaunchData(new Vector3(1,0,0) + velocityY * -Mathf.Sign(gravity), time);
 	}
 
 	void DrawPath()
