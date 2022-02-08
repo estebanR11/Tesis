@@ -11,9 +11,7 @@ public class BallLauncher : MonoBehaviour
     public Rigidbody ball;
     public Transform target;
 	[SerializeField] float posicionInicial;
-	public float h = 25;
-    public float gravity = 9.8f;
-
+	
 	[SerializeField] TextMeshProUGUI textoTiempo;
 
 	[SerializeField] TextMeshProUGUI textoAngulo;
@@ -21,7 +19,8 @@ public class BallLauncher : MonoBehaviour
 	[SerializeField] Slider velocidadSlider;
 	[SerializeField] Slider anguloSlider;
 	[SerializeField] float velocidad;
-	[SerializeField] float angulo;
+	[SerializeField] float anguloGrados;
+	[SerializeField] float anguloRadianes;
 
 	float tiempo = 0.0f;
 	[SerializeField]float tiempoEntrePanel = 0.0f;
@@ -31,8 +30,14 @@ public class BallLauncher : MonoBehaviour
 	bool isRunning = false;
 	[SerializeField] PanelResultados panel;
 	[SerializeField] Vector3 lastVelocity;
-    // Start is called before the first frame update
-    void Start()
+
+
+
+	public float h = 0;
+	public float gravity = 9.8f;
+
+	// Start is called before the first frame update
+	void Start()
     {
 		ball.useGravity = false;
 		cambiarVelocidad();
@@ -45,14 +50,22 @@ public class BallLauncher : MonoBehaviour
     {
 		velocidad = velocidadSlider.value;
 		textoVelocidad.text = Math.Round(velocidad, 2).ToString();
-    }
+		calcularAltura();
+	}
 
 	public void cambiarAngulo()
     {
-		angulo = anguloSlider.value;
-		textoAngulo.text = Math.Round(angulo, 2).ToString();
-		//h = (Mathf.Pow(velocidad, 2) * Mathf.Pow(Mathf.Sin(angulo), 2)) / (2 * (-gravity));
+		anguloGrados = anguloSlider.value;
+		anguloRadianes = anguloGrados * (Mathf.PI / 180);
+		textoAngulo.text = Math.Round(anguloGrados, 2).ToString();
+		calcularAltura();
+
 		//Debug.Log(h);
+	}
+
+	void calcularAltura()
+    {
+		h = (Mathf.Pow(velocidad, 2) * Mathf.Pow(Mathf.Sin(anguloRadianes), 2)) / (2 * (-gravity));
 	}
     // Update is called once per frame
     void Update()
@@ -65,11 +78,11 @@ public class BallLauncher : MonoBehaviour
 			if (tiempoEntrePanel >= resetDeTiempo)
             {
 				tiempoEntrePanel = 0.0f;
-				panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y, angulo, velocidad);
+				panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y, anguloGrados, velocidad);
 			}
 			textoTiempo.text = "Tiempo: " + tiempo;
 
-			if(ball.transform.position.y < posicionInicial-1)
+			if(ball.transform.position.y < posicionInicial- 0.2f)
             {
 				pausar();
 
@@ -93,12 +106,13 @@ public class BallLauncher : MonoBehaviour
 
     public void Launch()
 	{
-		panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y, angulo, velocidad);
+		panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y, anguloGrados, velocidad);
 		isRunning = true;
-
+		
 
 		Physics.gravity = Vector3.up * gravity;
 		ball.useGravity = true;
+
 		ball.velocity = CalculateLaunchData().initialVelocity;
 	}
 
@@ -106,23 +120,17 @@ public class BallLauncher : MonoBehaviour
 	{
 		float displacementY = target.position.y - ball.position.y;
 
-		Vector3 displacementXZ = new Vector3(target.position.x - ball.position.x, 0, target.position.z - ball.position.z);
-
+		//Vector3 displacementXZ = new Vector3(target.position.x - ball.position.x, 0, target.position.z - ball.position.z);
+		//((Math.Pow(velocidad,2) * (Mathf.Sin(angulo*2) / (2* velocityY.y)
 		float time = Mathf.Sqrt(-2 * h / gravity) + Mathf.Sqrt(2 * (displacementY - h) / gravity);
 
-
-
 		Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * h);
-
-
-
-		Vector3 velocityXZ = displacementXZ / time;
-
-
-
-		
-
-		return new LaunchData(velocityXZ + velocityY * -Mathf.Sign(gravity), time);
+		Debug.Log("Velocity y" + velocityY);
+		Vector3 velocityX = Vector3.right * velocidad * Mathf.Cos(anguloRadianes);
+	
+		//Vector3 velocityXZ = displacementXZ / time;			
+		Debug.Log("Velocity x" + velocityX);
+		return new LaunchData(velocityX + velocityY * -Mathf.Sign(gravity), time);
 	}
 
 	
@@ -135,6 +143,7 @@ public class BallLauncher : MonoBehaviour
 		public LaunchData(Vector3 initialVelocity, float timeToTarget)
 		{
 			this.initialVelocity = initialVelocity;
+			Debug.Log(initialVelocity);
 			this.timeToTarget = timeToTarget;
 		}
 
