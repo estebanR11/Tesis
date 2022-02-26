@@ -36,15 +36,17 @@ public class BallLauncher : MonoBehaviour
 	public float h = 0;
 	public float gravity = 9.8f;
 
+	public float yInicial;
 	// Start is called before the first frame update
 	void Start()
     {
 		ball.useGravity = false;
 		cambiarVelocidad();
 		cambiarAngulo();
+	
 		posicionInicial = ball.transform.position.y;
-
-	}
+		yInicial = posicionInicial;
+}
 
 	public void cambiarVelocidad()
     {
@@ -78,7 +80,7 @@ public class BallLauncher : MonoBehaviour
 			if (tiempoEntrePanel >= resetDeTiempo)
             {
 				tiempoEntrePanel = 0.0f;
-				panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y, anguloGrados, velocidad);
+				panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y - yInicial, anguloGrados, velocidad);
 			}
 			textoTiempo.text = "Tiempo: " + tiempo;
 
@@ -106,7 +108,8 @@ public class BallLauncher : MonoBehaviour
 
     public void Launch()
 	{
-		panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y, anguloGrados, velocidad);
+		yInicial = ball.transform.position.y;
+		panel.InstanciarPanel(tiempo, transform.position.x, transform.position.y - yInicial, anguloGrados, velocidad);
 		isRunning = true;
 		
 
@@ -122,6 +125,7 @@ public class BallLauncher : MonoBehaviour
 
 		//Vector3 displacementXZ = new Vector3(target.position.x - ball.position.x, 0, target.position.z - ball.position.z);
 		//((Math.Pow(velocidad,2) * (Mathf.Sin(angulo*2) / (2* velocityY.y)
+
 		float time = Mathf.Sqrt(-2 * h / gravity) + Mathf.Sqrt(2 * (displacementY - h) / gravity);
 
 		Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * h);
