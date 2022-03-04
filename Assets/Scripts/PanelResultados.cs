@@ -21,6 +21,7 @@ public class PanelResultados : MonoBehaviour
 
         instanciado.GetComponent<SetValuesBG>().setValues(time,xPos,yPos,ang,veli);
         instanciado.transform.SetParent(this.gameObject.transform);
+        instanciado.transform.localScale = new Vector3(1.5f, 1.5f, 1);
 
 
     }
