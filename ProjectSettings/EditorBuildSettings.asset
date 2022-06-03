@@ -6,6 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 197da92fbc8788a47a1d12981e83d2b4
+  - enabled: 1
     path: Assets/Scenes/Parabolico.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Scenes/CaidaLibre.unity
+    guid: 5f722c509e6221342a55d7623ea9b0ac
+  - enabled: 1
+    path: Assets/Scenes/LeyesNewton.unity
+    guid: 4a5cabf7ee3653f4f8ffa14b1435649a
+  m_configObjects:
+    com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: b2127f1f63a72824d8be4d85f155f2d7, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 586268724f3a9354eac7d1767b2274f6, type: 2}

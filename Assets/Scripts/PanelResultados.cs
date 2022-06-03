@@ -13,7 +13,7 @@ public class PanelResultados : MonoBehaviour
     public void InstanciarPanel(float tiempo, float x, float y, float angulo, float velocidadInicial)
     {
         instanciado = Instantiate(prefab);
-        string time = Math.Round(tiempo, 2).ToString();
+        string time = Math.Round(tiempo,1).ToString();
         string xPos = Math.Round(x, 4).ToString();
         string yPos = Math.Round(y, 4).ToString();
         string ang = Math.Round(angulo, 4).ToString();

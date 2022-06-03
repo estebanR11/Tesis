@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
-    <ImageTarget name="Second" size="20.000000 12.835283" />
-    <ImageTarget name="Frst" size="1.000000 0.641764" />
+    <ImageTarget name="Newton" size="5.000000 3.997642" />
+    <ImageTarget name="404-4046434_dibujo-de-la-sombra-de-un-hombre-en" size="2.000000 1.363196" />
+    <ImageTarget name="Canon" size="2.000000 2.000000" />
   </Tracking>
 </QCARConfig>
